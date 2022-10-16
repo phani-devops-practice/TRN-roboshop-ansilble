@@ -27,7 +27,7 @@
 
 - name: Check the Default password
   ansible.builtin.set_fact:
-  DEFAULT_PASSWORD: "{{mysql_log['content'] | b64decode | regex_search('.*temporary password.*') | split(' ') | last)"
+  DEFAULT_PASSWORD: "{{mysql_log['content'] | b64decode | regex_search('.*temporary password.*') | split(' ') | last}}"
 
 #- name: Check mysql password reset or not
 #  community.mysql.mysql_info:
