@@ -1,0 +1,9 @@
+- name: Fail if RABBITMQ_USER_PASSWORD exist or not
+  ansible.builtin.fail:
+    msg: RABBITMQ_USER_PASSWORD variable is needed
+  when: RABBITMQ_USER_PASSWORD is undefined
+
+- name: Include python.yml
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: python.yml

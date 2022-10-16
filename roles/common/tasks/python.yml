@@ -1,0 +1,32 @@
+- name: Install python services
+  ansible.builtin.yum:
+    name:
+      - python36
+      - gcc
+      - python3-devel
+    state: installed
+
+- name: Include common role
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: download
+
+- name: Install python dependencies
+  ansible.builtin.pip:
+    requirements: "{{APP_LOCATION}}/requirements.txt"
+    executable: pip3
+
+- name: Update the user id and group id
+  ansible.builtin.lineinfile:
+    path: /home/roboshop/{{COMPONENT}}/{{COMPONENT}}.ini
+    regexp: '^{item.key}'
+    line: "{{item.line}}"
+  loop:
+    - {key="uid", line: "uid = {{app_user.uid}}"}
+    - {key="gid", line: "gid = {{app_user.group}}"}
+
+- name: Include systemd service
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: systemd
+
