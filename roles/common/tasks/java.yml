@@ -1,0 +1,25 @@
+- name: Install maven service
+  ansible.builtin.yum:
+    name: maven
+    state: installed
+
+- name: Include common role
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: download
+
+- name: Download maven dependencies
+  ansible.builtin.shell: mvn clean package && mv target/{{COMPONENT}}-1.0.jar {{COMPONENT}}.jar
+  args:
+    chdir: /home/roboshop/{{COMPONENT}}
+
+- name: Include systemd {{COMPONENT}} service
+  ansible.builtin.include_role:
+    name: common
+    tasks_from: systemd
+
+
+
+
+
+

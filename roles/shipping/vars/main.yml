@@ -1,0 +1,4 @@
+COMPONENT: shipping
+
+APP_LOCATION: /home/roboshop/{{COMPONENT}}
+SUFFIX: /
