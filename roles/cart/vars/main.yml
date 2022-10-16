@@ -1,0 +1,4 @@
+COMPONENT: cart
+
+APP_LOCATION: /home/roboshop/{{COMPONENT}}
+SUFFIX: /
