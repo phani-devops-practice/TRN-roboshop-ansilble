@@ -25,8 +25,25 @@
 #    dest: "{{APP_LOCATION}}/"
 #    remote_src: yes
 
+
+- name: Download the latest version of nexus
+  ansible.builtin.shell: curl -s http://3.237.254.91:8081/service/rest/repository/browse/{{COMPONENT}}/ | grep zip | sed -e 's/"/ /g' | xargs -n1 | grep ^http | tail -n1
+  register: out
+  when: APP_VERSION is not defined
+
+- name: Declare the latest version nexus
+  ansible.builtin.set_fact:
+    URL: "{{out.stdout}}"
+  when: APP_VERSION is not defined
+
+- name: Declare the latest version of nexus
+  ansible.builtin.set_fact:
+    URL: "http://nexus.roboshop.internal:8081/repository/{{COMPONENT}}/{{COMPONENT}}-{{APP_VERSION}}.zip"
+  when: APP_VERSION is defined
+
+
 - name: Download and Extract the {{COMPONENT}} content to nexus
   ansible.builtin.unarchive:
-    src: http://nexus.roboshop.internal:8081/repository/{{COMPONENT}}/{{COMPONENT}}-{{APP_VERSION}}.zip
+    src: "{{URL}}"
     dest: "{{APP_LOCATION}}"
-    remote_src: yes
+    remote_src: yes   
