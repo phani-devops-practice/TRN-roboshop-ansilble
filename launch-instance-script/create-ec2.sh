@@ -10,7 +10,7 @@ COMPONENT=all
 create_ec2() {
   PRIVATE_IP=$(aws ec2 run-instances \
       --image-id ${AMI_ID} \
-      --instance-type t3.small \
+      --instance-type t3.medium \
       --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}}]" \
       --instance-market-options "MarketType=spot,SpotOptions={SpotInstanceType=persistent,InstanceInterruptionBehavior=stop}"\
       --security-group-ids ${SGID} \
@@ -24,7 +24,7 @@ AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=Centos-7-DevOps-Pra
 SGID=$(aws ec2 describe-security-groups --filters Name=group-name,Values=${SG_NAME} | jq  '.SecurityGroups[].GroupId' | sed -e 's/"//g')
 
 if [ "$COMPONENT" == "all" ]; then
-  for component in jenkins ; do
+  for component in nexus ; do
     COMPONENT=$component
     create_ec2
   done
