@@ -50,18 +50,18 @@
   ansible.builtin.shell: echo "uninstall plugin validate_password;" | mysql -uroot -p"{{MYSQL_PASSWORD}}"
   when: plugin_info is succeeded
 
-#- name: Download schema
-#  ansible.builtin.unarchive:
-#    src: https://github.com/roboshop-devops-project/{{COMPONENT}}/archive/main.zip
-#    dest: /tmp
-#    remote_src: yes
-#
-#- name: Load schema
-#  community.mysql.mysql_db:
-#    state: import
-#    name: all
-#    target: /tmp/mysql-main/shipping.sql
-#    login_user: root
-#    login_password: "{{MYSQL_PASSWORD}}"
-#
-#
+- name: Download schema
+  ansible.builtin.unarchive:
+    src: https://github.com/roboshop-devops-project/{{COMPONENT}}/archive/main.zip
+    dest: /tmp
+    remote_src: yes
+
+- name: Load schema
+  community.mysql.mysql_db:
+    state: import
+    name: all
+    target: /tmp/mysql-main/shipping.sql
+    login_user: root
+    login_password: "{{MYSQL_PASSWORD}}"
+
+
