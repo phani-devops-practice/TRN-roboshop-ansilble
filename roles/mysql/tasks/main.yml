@@ -10,7 +10,9 @@
 
 - name: Install mysql-community-server
   ansible.builtin.yum:
-    name: mysql-community-server
+    name:
+      - mysql-community-server
+      - python36-PyMySQL.noarch
     state: installed
 
 - name: Start the {{COMPONENT}} service
