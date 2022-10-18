@@ -33,13 +33,13 @@
     login_user: root
     login_password: "{{MYSQL_PASSWORD}}"
     filter: version
-  ignore_errors: yes
-  register: mysql_connect
-
-- name: Reset mysql password
-  ansible.builtin.shell: echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '{{MYSQL_PASSWORD}}';" | mysql  --connect-expired-password -uroot -p"{{DEFAULT_PASSWORD}}"
-  when: mysql_connect is failed
+#  ignore_errors: yes
+#  register: mysql_connect
 #
+#- name: Reset mysql password
+#  ansible.builtin.shell: echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '{{MYSQL_PASSWORD}}';" | mysql  --connect-expired-password -uroot -p"{{DEFAULT_PASSWORD}}"
+#  when: mysql_connect is failed
+##
 #- name: Check validate password
 #  ansible.builtin.shell: echo show plugins | mysql -uroot -p"{{MYSQL_PASSWORD}}" | grep validate_password
 #  ignore_errors: yes
