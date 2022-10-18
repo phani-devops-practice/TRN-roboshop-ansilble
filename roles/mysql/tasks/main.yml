@@ -12,7 +12,7 @@
   ansible.builtin.yum:
     name:
       - mysql-community-server
-      - python36-PyMySQL.noarch
+      - MySQL-python.x86_64
     state: installed
 
 - name: Start the {{COMPONENT}} service
