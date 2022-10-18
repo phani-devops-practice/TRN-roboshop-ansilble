@@ -19,49 +19,49 @@
     state: started
     enabled: yes
 
-- name: Find out DEFAULT_PASSWORD
-  ansible.builtin.slurp:
-    src: /var/log/mysqld.log
-  register: mysql_log
-
-- name: Fetch password from MYSQL log file
-  ansible.builtin.set_fact:
-    DEFAULT_PASSWORD: "{{mysql_log['content'] | b64decode | regex_search('.*temporary password.*') | split(' ') | last}}"
-
-- name: Check mysql password reset or not
-  community.mysql.mysql_info:
-    login_user: root
-    login_password: "{{MYSQL_PASSWORD}}"
-    filter: version
-  ignore_errors: yes
-  register: mysql_connect
-
-- name: Reset mysql password
-  ansible.builtin.shell: echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '{{MYSQL_PASSWORD}}';" | mysql  --connect-expired-password -uroot -p"{{DEFAULT_PASSWORD}}"
-  when: mysql_connect is failed
-
-- name: Check validate password
-  ansible.builtin.shell: echo show plugins | mysql -uroot -p"{{MYSQL_PASSWORD}}" | grep validate_password
-  ignore_errors: yes
-  register: plugin_info
-
-
-- name: Uninstall validate plugin
-  ansible.builtin.shell: echo "uninstall plugin validate_password;" | mysql -uroot -p"{{MYSQL_PASSWORD}}"
-  when: plugin_info is succeeded
-
-- name: Download schema
-  ansible.builtin.unarchive:
-    src: https://github.com/roboshop-devops-project/{{COMPONENT}}/archive/main.zip
-    dest: /tmp
-    remote_src: yes
-
-- name: Load schema
-  community.mysql.mysql_db:
-    state: import
-    name: all
-    target: /tmp/mysql-main/shipping.sql
-    login_user: root
-    login_password: "{{MYSQL_PASSWORD}}"
+#- name: Find out DEFAULT_PASSWORD
+#  ansible.builtin.slurp:
+#    src: /var/log/mysqld.log
+#  register: mysql_log
+#
+#- name: Fetch password from MYSQL log file
+#  ansible.builtin.set_fact:
+#    DEFAULT_PASSWORD: "{{mysql_log['content'] | b64decode | regex_search('.*temporary password.*') | split(' ') | last}}"
+#
+#- name: Check mysql password reset or not
+#  community.mysql.mysql_info:
+#    login_user: root
+#    login_password: "{{MYSQL_PASSWORD}}"
+#    filter: version
+#  ignore_errors: yes
+#  register: mysql_connect
+#
+#- name: Reset mysql password
+#  ansible.builtin.shell: echo "ALTER USER 'root'@'localhost' IDENTIFIED BY '{{MYSQL_PASSWORD}}';" | mysql  --connect-expired-password -uroot -p"{{DEFAULT_PASSWORD}}"
+#  when: mysql_connect is failed
+#
+#- name: Check validate password
+#  ansible.builtin.shell: echo show plugins | mysql -uroot -p"{{MYSQL_PASSWORD}}" | grep validate_password
+#  ignore_errors: yes
+#  register: plugin_info
+#
+#
+#- name: Uninstall validate plugin
+#  ansible.builtin.shell: echo "uninstall plugin validate_password;" | mysql -uroot -p"{{MYSQL_PASSWORD}}"
+#  when: plugin_info is succeeded
+#
+#- name: Download schema
+#  ansible.builtin.unarchive:
+#    src: https://github.com/roboshop-devops-project/{{COMPONENT}}/archive/main.zip
+#    dest: /tmp
+#    remote_src: yes
+#
+#- name: Load schema
+#  community.mysql.mysql_db:
+#    state: import
+#    name: all
+#    target: /tmp/mysql-main/shipping.sql
+#    login_user: root
+#    login_password: "{{MYSQL_PASSWORD}}"
 
 
