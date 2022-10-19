@@ -1,12 +1,12 @@
 - name: prometheus server setup
   ansible.builtin.include_role:
     name: prometheus
-    tasks_form: server
+    tasks_from: server
   when: SETUP_TYPE == "server"
 
 - name: Prometheus client setup
   ansible.builtin.include_role:
     name: prometheus
-    tasks_form: client
+    tasks_from: client
   when: SETUP_TYPE == "client"
 
