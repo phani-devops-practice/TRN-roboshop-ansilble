@@ -1,0 +1,22 @@
+groups:
+  - name: Alerts
+    rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:{% raw %}
+          summary: "Instance Down - [{{ $labels.instance}}]"
+          description: "Instance Down - [{{ $labels.instance}}]"{% endraw %}
+
+      - alert: ServiceDown
+        expr: up == node_systemd_unit_state{name="nginx.service",state="active"}
+        for: 1m
+        labels:
+          severity: critical
+        annotations:{% raw %}
+          summary: "Service Down - [{{ $labels.name}}]"
+          description: "Service Down - [{{ $labels.name}}]"
+
+        {% endraw %}
