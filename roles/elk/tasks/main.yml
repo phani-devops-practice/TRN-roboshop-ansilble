@@ -1,0 +1,5 @@
+- name: Create RSYSLOG setup
+  ansible.builtin.include_role:
+    name: rsyslog.yml
+    tasks_from: elk
+  when: SETUP_TYPE == "rsyslog"

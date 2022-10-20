@@ -1,0 +1,4 @@
+- name: Configure the rsyslog template
+  ansible.builtin.template:
+    src: rsyslog.yml
+    dest: /etc/rsyslog.d/rsyslog.yml
