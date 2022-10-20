@@ -5,7 +5,7 @@ filebeat.inputs:
     - /var/log/{{COMPONENT}}.log
 
 output.elasticsearch:
-  index: "{{COMPONENT}}"
+  index: {{COMPONENT}}
   hosts: ["elasticsearch.roboshop.internal:9200"]
 
 # -------------------------------------
@@ -21,3 +21,7 @@ processors:
   - add_cloud_metadata: ~
   - add_docker_metadata: ~
   - add_kubernetes_metadata: ~
+
+output.elasticsearch.index: "{{COMPONENT}}"
+setup.template.name: "{{COMPONENT}}"
+setup.template.pattern: "{{COMPONENT}}"
