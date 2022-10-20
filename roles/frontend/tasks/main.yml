@@ -19,6 +19,11 @@
     state: restarted
     enabled: yes
 
+- name: Copy Filebeat configuration
+  ansible.builtin.include_role:
+    name: elk
+    tasks_from: filebeat
+
 
 
 
