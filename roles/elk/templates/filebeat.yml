@@ -5,7 +5,7 @@ filebeat.inputs:
     - /var/log/{{COMPONENT}}.log
 
 output.elasticsearch:
-  index: {{COMPONENT}}
+  index: "{{COMPONENT}}-%{+yyyy-MM-dd}"
   hosts: ["elasticsearch.roboshop.internal:9200"]
 
 # -------------------------------------
@@ -22,6 +22,6 @@ processors:
   - add_docker_metadata: ~
   - add_kubernetes_metadata: ~
 
-output.elasticsearch.index: "{{COMPONENT}}"
-setup.template.name: "{{COMPONENT}}"
-setup.template.pattern: "{{COMPONENT}}"
+output.elasticsearch.index: "{{COMPONENT}}-%{+yyyy-MM-dd}"
+setup.template.name: "{{COMPONENT}}-%{+yyyy-MM-dd}"
+setup.template.pattern: "{{COMPONENT}}-%{+yyyy-MM-dd}"
