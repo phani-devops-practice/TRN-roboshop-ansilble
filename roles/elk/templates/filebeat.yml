@@ -16,7 +16,7 @@ setup.template.settings:
 
 
 output.elasticsearch:
-  index: "{{COMPONENT}}"
+  index: "{{COMPONENT}}-%{+yyyy-MM-dd}""
   hosts: ["elasticsearch.roboshop.internal:9200"]
 
 
