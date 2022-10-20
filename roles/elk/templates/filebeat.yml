@@ -16,7 +16,8 @@ setup.template.settings:
 
 
 output.elasticsearch:
-  hosts: ["localhost:9200"]
+  index: "{{COMPONENT}}"
+  hosts: ["elasticsearch.roboshop.internal:9200"]
 
 
 processors:
