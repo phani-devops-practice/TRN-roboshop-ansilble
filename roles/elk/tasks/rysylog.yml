@@ -2,3 +2,8 @@
   ansible.builtin.template:
     src: rsyslog.yml
     dest: /etc/rsyslog.d/rsyslog.yml
+
+- name: restart rsyslog
+  ansible.builtin.systemd:
+    name: rsyslog
+    state: restarted
