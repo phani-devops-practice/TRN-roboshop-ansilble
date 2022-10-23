@@ -8,7 +8,7 @@
     name: logstash
     state: restarted
 
-- name: Check alert manager is running or not
+- name: Check logstash is running or not
   ansible.builtin.wait_for:
     host: 0.0.0.0
     port: 5044
