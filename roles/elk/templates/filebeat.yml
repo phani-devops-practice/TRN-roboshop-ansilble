@@ -9,6 +9,9 @@ output.elasticsearch:
   index: "{{COMPONENT}}-%{+yyyy-MM-dd}"
   hosts: ["elasticsearch.roboshop.internal:9200"]
 
+output.logstash:
+  hosts: ["elasticsearch.roboshop.internal:5044"]
+
 # -------------------------------------
 filebeat.config.modules:
   path: ${path.config}/modules.d/*.yml
