@@ -5,7 +5,7 @@ filebeat.inputs:
   json.keys_under_root: true
 {% endif %}
   paths:
-    - /var/log/{{COMPONENT}}.log
+    - {{LOG_FILE}}
 
 {% if LOG_TYPE == "json" %}
 output.elasticsearch:
