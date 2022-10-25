@@ -8,6 +8,9 @@ filebeat.inputs:
 output.elasticsearch:
   index: "{{COMPONENT}}-%{+yyyy-MM-dd}"
   hosts: ["elasticsearch.roboshop.internal:9200"]
+setup.ilm.enabled: false
+setup.template.name: "{{COMPONENT}}-%{+yyyy-MM-dd}"
+setup.template.pattern: "{{COMPONENT}}-%{+yyyy-MM-dd}"
 
 output.logstash:
   hosts: ["elasticsearch.roboshop.internal:5044"]
@@ -21,11 +24,11 @@ setup.template.settings:
 
 processors:
   - add_host_metadata:
-      when.not.contains.tags: forwarded
+      when.not.contains.tags: forwarded  
   - add_cloud_metadata: ~
   - add_docker_metadata: ~
   - add_kubernetes_metadata: ~
 
-setup.ilm.enabled: false
-setup.template.name: "{{COMPONENT}}-%{+yyyy-MM-dd}"
-setup.template.pattern: "{{COMPONENT}}-%{+yyyy-MM-dd}"
+
+
+
