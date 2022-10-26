@@ -1,7 +1,7 @@
 filebeat.inputs:
 - type: log
   enabled: true
-{% if LOG_TYPE == "json" %}
+{% if  LOG_TYPE == "json" %}
   json.keys_under_root: true
 {% endif %}
   paths:
@@ -9,30 +9,29 @@ filebeat.inputs:
   fields:
     env: {{ENV}}
     component: {{COMPONENT}}
-
-{% if COMPONENT == "shipping" %}
+{% if  COMPONENT == "shipping" %}
   multiline.type: pattern
   multiline.pattern: '^2'
   multiline.negate: true
   multiline.match: after
 {% endif %}
-{% if COMPONENT == "payment" %}
+{% if  COMPONENT == "payment" %}
   include_lines: ['^\[2']
 {% endif %}
-{% if COMPONENT == "frontend" %}
+{% if  COMPONENT == "frontend" %}
   exclude_lines: ['//api/ratings*']
 {% endif %}
 
-{% if LOG_TYPE == "json" %}
+{% if  LOG_TYPE == "json" %}
 output.elasticsearch:
-  index: "{{COMPONENT}}-%{+yyyy-MM-dd}"
+  index: "{{COMPONENT}}-%{+yyyy.MM.dd}"
   hosts: ["elasticsearch.roboshop.internal:9200"]
 setup.ilm.enabled: false
-setup.template.name: "{{COMPONENT}}-%{+yyyy-MM-dd}"
-setup.template.pattern: "{{COMPONENT}}-%{+yyyy-MM-dd}"
+setup.template.name: "{{COMPONENT}}-%{+yyyy.MM.dd}"
+setup.template.pattern: "{{COMPONENT}}-%{+yyyy.MM.dd}"
 {% endif %}
   
-{% if LOG_TYPE == "raw" %}
+{% if  LOG_TYPE == "raw" %}
 output.logstash:
   hosts: ["elasticsearch.roboshop.internal:5044"]
 {% endif %}
