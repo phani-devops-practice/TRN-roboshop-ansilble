@@ -39,15 +39,15 @@ else
   create_ec2
 fi
 
-source change_ec2_instance_type.sh
-change_ec2_instance_type -i t3.micro -t t3.medium
-
-if [ "$COMPONENT" == "all" ]; then
+if [ "$COMPONENT" == "shipping" ]; then
+  source change_ec2_instance_type.sh
+  change_ec2_instance_type -i t3.micro -t t3.medium
   for component in shipping ; do
-    COMPONENT=$component
+      COMPONENT=$component
+      create_ec2
+    done
+  else
     create_ec2
-  done
-else
-  create_ec2
-fi
+  fi
+
 
