@@ -16,7 +16,6 @@ create_ec2() {
   PRIVATE_IP=$(aws ec2 run-instances \
       --image-id ${AMI_ID} \
       --instance-type t3.micro \
-      --instance-type t3.medium \
       --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${COMPONENT}${ENV}}, {Key=Monitor,Value=yes}]" \
       --instance-market-options "MarketType=spot,SpotOptions={SpotInstanceType=persistent,InstanceInterruptionBehavior=stop}"\
       --security-group-ids ${SGID} \
@@ -36,11 +35,19 @@ if [ "$COMPONENT" == "all" ]; then
     COMPONENT=$component
     create_ec2
   done
-else if
-  for component in shipping ; do
-      COMPONENT=$component
-      create_ec2
-    done
-else if
+else
   create_ec2
 fi
+
+source change_ec2_instance_type.sh
+change_ec2_instance_type -i t3.micro -t t3.medium
+
+if [ "$COMPONENT" == "all" ]; then
+  for component in shipping ; do
+    COMPONENT=$component
+    create_ec2
+  done
+else
+  create_ec2
+fi
+
